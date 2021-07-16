@@ -1,0 +1,12 @@
+
+
+label {
+  color: navy;
+  text-indent: 30px;
+  text-transform: uppercase;
+}
+div {
+  border: 5px outset red;
+  background-color: lightblue;    
+  text-align: center;
+}

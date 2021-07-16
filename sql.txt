@@ -1,0 +1,101 @@
+*table course:
+
+CREATE TABLE `course` (
+  `course_id` int(11) NOT NULL,
+  `course_name` varchar(255) NOT NULL,
+  `course_description` varchar(500) NOT NULL,
+  `department_id` int(11) NOT NULL,
+  `professor_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `course` (`course_id`, `course_name`, `course_description`, `department_id`, `professor_id`) VALUES
+(1, 'data base', 'learning data base', 1, 1),
+(2, 'maths 1', 'learning maths1', 2, 2),
+(3, 'physics', 'learning physics', 2, 2),
+(4, 'ai 1', 'learning ai', 3, 3),
+(5, 'chemistry 1', 'learning shemistry', 4, 4),
+(6, 'maths 2', 'learn maths2', 2, 2),
+(7, 'pyhsiscs 2', 'learning physiscs 2', 2, 4),
+(8, 'maths 2', 'kkkkkkkkkk', 2, 2),
+(9, 'maths2', 'jjjjjjjj', 2, 2),
+(10, 'maths 222', 'lllllllllll', 2, 2),
+(11, 'maths 2', 'dssssssssss', 2, 2),
+(12, 'maths 22', 'fasgrgahat', 2, 2);
+
+ALTER TABLE `course`
+  ADD PRIMARY KEY (`course_id`),
+  ADD KEY `department_id` (`department_id`),
+  ADD KEY `professor_id` (`professor_id`);
+
+
+ALTER TABLE `course`
+  ADD CONSTRAINT `department` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `professor` FOREIGN KEY (`professor_id`) REFERENCES `professor` (`professor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+*table department:
+
+CREATE TABLE `department` (
+  `department_id` int(50) NOT NULL,
+  `department_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `department` (`department_id`, `department_name`) VALUES
+(1, 'data'),
+(2, 'maths'),
+(3, 'ai'),
+(4, 'chemistry');
+
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`department_id`);
+
+
+*table professor:
+
+CREATE TABLE `professor` (
+  `professor_id` int(50) NOT NULL,
+  `professor_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `professor` (`professor_id`, `professor_name`) VALUES
+(1, 'mongui'),
+(2, 'salama'),
+(3, 'marwan'),
+(4, 'yehia');
+
+
+ALTER TABLE `professor`
+  ADD PRIMARY KEY (`professor_id`);
+
+
+*sql used in code:
+-in index.php
+$sql="select course_name,course_description ,department_name ,professor_name from course ,department,
+		professor where course.department_id=department.department_id and course.professor_id = professor.professor_id
+		limit 5";
+
+-in loadcourses.php
+$sql="select course_name,course_description ,department_name ,professor_name from course ,department,
+		professor where course.department_id=department.department_id and course.professor_id = professor.professor_id
+		limit $coursesNewCnt";
+
+ $sql="select course_name ,course_description,department_name,professor_name from course ,department,professor
+ where course.department_id=department.department_id 
+		and course.professor_id = professor.professor_id
+		and ((replace (course_name,' ','')  LIKE '%".$searchvalue."%' or course_name LIKE '%".$searchvalue."%' )
+		or(replace (course_description,' ','')  LIKE '%".$searchvalue."%' or course_description LIKE '%".$searchvalue."%')
+		or(replace (department_name,' ','')  LIKE '%".$searchvalue."%' or department_name LIKE '%".$searchvalue."%')
+		or(replace (professor_name,' ','')  LIKE '%".$searchvalue."%' or professor_name LIKE '%".$searchvalue."%'))
+		limit $coursesNewCnt";
+
+-in fetch.php
+ $query="select course_name ,course_description,department_name,professor_name from course ,department,professor
+ where course.department_id=department.department_id 
+		and course.professor_id = professor.professor_id
+		and ((replace (course_name,' ','')  LIKE '%".$search."%' or course_name LIKE '%".$search."%' )
+		or(replace (course_description,' ','')  LIKE '%".$search."%' or course_description LIKE '%".$search."%')
+		or(replace (department_name,' ','')  LIKE '%".$search."%' or department_name LIKE '%".$search."%')
+		or(replace (professor_name,' ','')  LIKE '%".$search."%' or professor_name LIKE '%".$search."%'))
+		limit 5";
+
+
